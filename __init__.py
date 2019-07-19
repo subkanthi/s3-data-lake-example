@@ -2,6 +2,7 @@
 import sys
 import csv_processor.csv_processor as csvp;
 
+S3_BUCKET_NAME = 'newyorktrips-partitioned'
 def main():
     if len(sys.argv[1]) == 0:
         print("Pass a valid filename argument")
