@@ -1,23 +1,33 @@
 import pandas as pd
-from csv_processor import columnNames
+from etl_processor import columnNames
 from s3_processor import S3Processor
 
 
-class CsvProcessor:
-    
+class EtlProcessor:
+
     # Function to read columns from csv file
     # and return a pandas dataframe
-    def parse_csv(self, csv_file_name, bucket_name):
+    def parse_data_return_json(self, csv_file_name, bucket_name):
         df = pd.read_csv(csv_file_name, error_bad_lines=False)
         for col in df.columns:
             print(col)
         for index, row in df.iterrows():
             s3Key = self.create_s3key_from_dataframe(bucket_name, row)
             row_json = row.to_json()
-            print('csv' + row_json)
             self.s3Processor.writeObject(row_json, s3Key)
         return df
 
+    # Function to read columns from csv file
+    # and return a pandas dataframe
+    def parse_data_return_parquet(self, csv_file_name, bucket_name):
+        df = pd.read_csv(csv_file_name, error_bad_lines=False)
+        for col in df.columns:
+            print(col)
+        for index, row in df.iterrows():
+            s3Key = self.create_s3key_from_dataframe(bucket_name, row)
+            row_json = row.to_frame()
+            self.s3Processor.writeObject(row_json, s3Key)
+        return df
 
 
     # Function to create s3Key from the data frame.

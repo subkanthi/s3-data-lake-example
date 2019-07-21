@@ -19,7 +19,9 @@ class S3Processor:
     # We are converting every row in the CSV to an object
     def writeObject(self, data, key):
         #object = self.s3.Object(self.bucket_name, key)
-        self.s3.put_object(Bucket=self.bucket_name, Key=key + 'file.txt', Body=(bytes(json.dumps(data).encode('UTF-8'))))
+        #self.s3.put_object(Bucket=self.bucket_name, Key=key + 'file.json', Body=(bytes(json.dumps(data).encode('UTF-8'))))
+        self.s3.put_object(Bucket=self.bucket_name, Key=key + 'file.json', Body=data)
+
         #self.s3.upload_file(key, self.bucket_name, data)
         print("Done")
        # object.put(Body=some_binary_data)
