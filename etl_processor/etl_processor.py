@@ -1,6 +1,7 @@
 import pandas as pd
 from etl_processor import columnNames
 from s3_processor import S3Processor
+from parquet_processor import parquet_processor
 
 
 class EtlProcessor:
@@ -25,8 +26,12 @@ class EtlProcessor:
             print(col)
         for index, row in df.iterrows():
             s3Key = self.create_s3key_from_dataframe(bucket_name, row)
-            row_json = row.to_frame()
-            self.s3Processor.writeObject(row_json, s3Key)
+            # Create a new data frame.
+            parquetDataFrame = pd.DataFrame(columns=df.columns, data=row)
+            print(parquetDataFrame)
+            #row_json = row.to_frame()
+            #self.s3Processor.writeObject(parquetDataFrame.to_parquet(), s3Key)
+            parquet_processor.ParquetProcessor().write_pandas_parquet_to_s3(parquetDataFrame, bucket_name, s3Key, 'file.parquet')
         return df
 
 

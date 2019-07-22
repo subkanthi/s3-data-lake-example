@@ -16,7 +16,7 @@ def main():
         # This is used to do a ETL job
         # on the CSV file and create the data lake files in JSON format
         # The data lake is created in S3.
-        etlp.EtlProcessor().parse_data_return_json(arg, S3_JSON_BUCKET_NAME)
+        #etlp.EtlProcessor().parse_data_return_json(arg, S3_JSON_BUCKET_NAME)
 
         etlp.EtlProcessor().parse_data_return_parquet(arg, S3_PARQUET_BUCKET_NAME)
 
